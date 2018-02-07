@@ -48,7 +48,8 @@ module SwellEcom
 		def new
 
 			if @order.order_items.select{ |order_item| order_item.prod? && order_item.item.is_a? SwellEcom::SubscriptionPlan }
-				raise Exception.new 'Unable to process subscriptions by PayPal'
+				@message = 'Unable to process subscriptions by PayPal'
+				return
 			end
 
 			@order_service.calculate( @order )

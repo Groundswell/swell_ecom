@@ -5,6 +5,7 @@ module SwellEcom
 		  transaction_service = args[:transaction_service]
 		  button_selector = args[:button_selector]
 		  button_selector ||= '#paypal_checkout_button'
+		  checkout_form_id = args[:form_id] || '#checkout_form'
 
 		  content_tag(:script, src: 'https://www.paypalobjects.com/api/checkout.js' )
 		  content_tag(:script) do
@@ -22,11 +23,16 @@ paypal.Button.render({
 
 		// Set up a url on your server to create the payment
 		var CREATE_URL = '#{swell_ecom.new_paypal_checkout_url()}';
-
+		var payment_data = $('#{checkout_form_id}').serializeArray()
 		// Make a call to your server to set up the payment
-		return paypal.request.post(CREATE_URL)
+		return paypal.request.post(CREATE_URL, payment_data)
 			.then(function(res) {
-				return res.paymentID;
+				if( res.status == 'success' ) {
+					return res.payment_id;
+				} else {
+					// @todo display error message
+					return false
+				}
 			});
 	},
 
