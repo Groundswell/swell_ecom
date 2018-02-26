@@ -62,6 +62,7 @@ module SwellEcom
 
 				order_attributes[:shipping_address_attributes] ||= order_attributes[:billing_address_attributes] if order_attributes.delete(:same_as_billing)
 
+				order_attributes[:order_items_attributes] ||= []
 				if order_attributes[:order_items_attributes].present?
 					order_attributes[:order_items_attributes].each do |order_item|
 						order_item[:order_item_type] 	= 'prod'
