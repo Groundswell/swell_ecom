@@ -3,7 +3,7 @@ namespace :swell_ecom do
 
 	task payment_profile_expiration_reminder: :environment do
 
-		subscriptions = SwellEcom::Subscription.active
+		subscriptions = SwellEcom::ManagedSubscription.active
 		subscriptions = subscriptions.where( payment_profile_expires_at: Time.now..1.month.from_now ).where.not( payment_profile_expires_at: nil )
 
 		subscriptions.find_each do |subscription|
@@ -26,7 +26,7 @@ namespace :swell_ecom do
 		time_now = Time.now
 		subscription_service = SwellEcom.subscription_service_class.constantize.new( SwellEcom.subscription_service_config )
 
-		SwellEcom::Subscription.ready_for_next_charge( time_now ).find_each do |subscription|
+		SwellEcom::ManagedSubscription.ready_for_next_charge( time_now ).find_each do |subscription|
 
 			begin
 
