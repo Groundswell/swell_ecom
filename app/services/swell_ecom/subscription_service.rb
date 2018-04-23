@@ -10,6 +10,14 @@ module SwellEcom
 			@transaction_service	= args[:transaction_service]
 			@transaction_service	||= SwellEcom.transaction_service_class.constantize.new( SwellEcom.transaction_service_config )
 
+			@default_subscription_class = ( args[:default_subscription_class] || SwellEcom.default_subscription_class.constantize )
+
+		end
+
+		def subscribe_ordered_item( order_item, args = {} )
+
+			self.subscribe( order_item.order.user, order_item.item, args.merge( quantity: order_item.quantity, order: order_item.order ) )
+
 		end
 
 		def subscribe_ordered_plans( order, args = {} )
@@ -19,7 +27,7 @@ module SwellEcom
 			order.order_items.each do |order_item|
 				if order_item.item.is_a? SwellEcom::SubscriptionPlan
 
-					order_item.subscription ||= self.subscribe( order.user, order_item.item, args.merge( quantity: order_item.quantity, order: order ) )
+					order_item.subscription ||= self.subscribe_ordered_item( order_item, args )
 					order_item.save
 
 				end
@@ -28,6 +36,7 @@ module SwellEcom
 		end
 
 		def subscribe( user, plan, args = {} )
+			subscription_class = ( args[:subscription_class] || @default_subscription_class )
 			start_at = args[:start_at] || Time.now
 			quantity = args[:quantity] || 1
 
@@ -76,7 +85,7 @@ module SwellEcom
 				current_period_end_at = start_at + trial_interval
 			end
 
-			subscription = Subscription.new(
+			subscription = subscription_class.new(
 				user: user,
 				subscription_plan: plan,
 				billing_address: args[:billing_address],
