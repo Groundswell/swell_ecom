@@ -8,7 +8,7 @@
 					Update Subscription Payment Profile
 					%small
 						#{@subscription.code}
-			= form_for @subscription, url: payment_profile_subscription_admin_path( @subscription, attribute: args[:attribute] ), method: :POST, html: {} do |f|
+			= form_for @subscription, as: :subscription, url: payment_profile_subscription_admin_path( @subscription, attribute: args[:attribute] ), method: :POST, html: {} do |f|
 				.modal-body
 
 					.form-group

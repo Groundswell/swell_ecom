@@ -8,7 +8,7 @@
 
 					%small
 						#{@subscription.code}
-			= form_for @subscription, url: subscription_admin_path( @subscription ) do |f|
+			= form_for @subscription, as: :subscription, url: subscription_admin_path( @subscription ) do |f|
 				.modal-body
 					.form-group
 						= f.label :discount_id, "Discount"

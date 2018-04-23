@@ -77,7 +77,7 @@
 		.col-xs-4
 			.well.white-well
 
-				= form_for @subscription, url: subscription_admin_path( @subscription ) do |f|
+				= form_for @subscription, as: :subscription, url: subscription_admin_path( @subscription ) do |f|
 					.form-group
 						= f.label :status
 						= f.collection_select :status, SwellEcom::Subscription.statuses, :first, :first, {}, class: 'form-control'

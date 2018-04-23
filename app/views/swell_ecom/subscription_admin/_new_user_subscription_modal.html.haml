@@ -6,7 +6,7 @@
 					&times;
 				%h4.modal-title
 					Add Subscription for #{user.full_name}
-			= form_for SwellEcom::Subscription.new( attributes.merge( shipping_address: ( attributes[:shipping_address] || SwellEcom::GeoAddress.new ), billing_address: ( attributes[:billing_address] || SwellEcom::GeoAddress.new ) ) ), url: swell_ecom.subscription_admin_index_path(), html: {} do |f|
+			= form_for SwellEcom.default_subscription_class.constantize.new( attributes.merge( shipping_address: ( attributes[:shipping_address] || SwellEcom::GeoAddress.new ), billing_address: ( attributes[:billing_address] || SwellEcom::GeoAddress.new ) ) ), as: :subscription, url: swell_ecom.subscription_admin_index_path(), html: {} do |f|
 				= hidden_field_tag :user_id, user.id
 				.modal-body
 					= f.hidden_field :trial_price, value: (attributes[:trial_price] || 0)

@@ -8,7 +8,7 @@
 					&times;
 				%h4.modal-title
 					Enter New Shipping Information
-			= form_for @subscription, url: swell_ecom.your_subscription_path( @subscription.code ) do |subscription_form|
+			= form_for @subscription, as: :subscription, url: swell_ecom.your_subscription_path( @subscription.code ) do |subscription_form|
 				.modal-body
 					= subscription_form.fields_for :shipping_address do |f|
 

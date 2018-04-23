@@ -8,7 +8,7 @@ describe "SubscriptionService" do
 	let(:new_trial2_subscription) {
 
 		subscription_plan = SwellEcom::SubscriptionPlan.new( title: 'Test Trial Subscription Plan', trial_price: 99, trial_max_intervals: 2, price: 12900, billing_interval_unit: 'weeks', billing_interval_value: 4, trial_interval_unit: 'days', trial_interval_value: 7 )
-		subscription = SwellEcom::Subscription.new( subscription_plan: subscription_plan, user: user, billing_address: address, shipping_address: address, quantity: 1, status: 'active', next_charged_at: Time.now, current_period_start_at: 1.week.ago, current_period_end_at: Time.now, provider: 'Authorize.net' )
+		subscription = SwellEcom.default_subscription_class.constantize.new( subscription_plan: subscription_plan, user: user, billing_address: address, shipping_address: address, quantity: 1, status: 'active', next_charged_at: Time.now, current_period_start_at: 1.week.ago, current_period_end_at: Time.now, provider: 'Authorize.net' )
 
 		order = SwellEcom::Order.new( billing_address: subscription.billing_address, shipping_address: subscription.shipping_address, user: subscription.user )
 		order.order_items.new item: subscription_plan, subscription: subscription, price: subscription_plan.trial_price, subtotal: subscription_plan.trial_price, order_item_type: 'prod', quantity: 1, title: subscription_plan.title, tax_code: subscription_plan.tax_code
@@ -19,7 +19,7 @@ describe "SubscriptionService" do
 	let(:new_trial1_subscription) {
 
 		subscription_plan = SwellEcom::SubscriptionPlan.new( title: 'Test Trial Subscription Plan', trial_price: 99, trial_max_intervals: 1, price: 12900, billing_interval_unit: 'weeks', billing_interval_value: 4, trial_interval_unit: 'days', trial_interval_value: 7 )
-		subscription = SwellEcom::Subscription.new( subscription_plan: subscription_plan, user: user, billing_address: address, shipping_address: address, quantity: 1, status: 'active', next_charged_at: Time.now, current_period_start_at: 1.week.ago, current_period_end_at: Time.now, provider: 'Authorize.net' )
+		subscription = SwellEcom.default_subscription_class.constantize.new( subscription_plan: subscription_plan, user: user, billing_address: address, shipping_address: address, quantity: 1, status: 'active', next_charged_at: Time.now, current_period_start_at: 1.week.ago, current_period_end_at: Time.now, provider: 'Authorize.net' )
 
 		order = SwellEcom::Order.new( billing_address: subscription.billing_address, shipping_address: subscription.shipping_address, user: subscription.user )
 		order.order_items.new item: subscription_plan, subscription: subscription, price: subscription_plan.trial_price, subtotal: subscription_plan.trial_price, order_item_type: 'prod', quantity: 1, title: subscription_plan.title, tax_code: subscription_plan.tax_code
@@ -75,21 +75,21 @@ describe "SubscriptionService" do
 
 	it "subscription is in a trial interval" do
 
-		subscription = SwellEcom::Subscription.new( subscription_plan: SwellEcom::SubscriptionPlan.new( trial_max_intervals: 0 ) )
+		subscription = SwellEcom.default_subscription_class.constantize.new( subscription_plan: SwellEcom::SubscriptionPlan.new( trial_max_intervals: 0 ) )
 		expect(subscription.is_next_interval_a_trial?).to eq false
 
-		subscription = SwellEcom::Subscription.new( subscription_plan: SwellEcom::SubscriptionPlan.new( trial_max_intervals: 1 ) )
+		subscription = SwellEcom.default_subscription_class.constantize.new( subscription_plan: SwellEcom::SubscriptionPlan.new( trial_max_intervals: 1 ) )
 		expect(subscription.is_next_interval_a_trial?).to eq true
 
-		subscription = SwellEcom::Subscription.new( subscription_plan: SwellEcom::SubscriptionPlan.new( trial_max_intervals: 2 ) )
+		subscription = SwellEcom.default_subscription_class.constantize.new( subscription_plan: SwellEcom::SubscriptionPlan.new( trial_max_intervals: 2 ) )
 		expect(subscription.is_next_interval_a_trial?).to eq true
 
-		subscription = SwellEcom::Subscription.new( subscription_plan: SwellEcom::SubscriptionPlan.new( trial_max_intervals: 1 ) )
+		subscription = SwellEcom.default_subscription_class.constantize.new( subscription_plan: SwellEcom::SubscriptionPlan.new( trial_max_intervals: 1 ) )
 		subscription.save
 		SwellEcom::OrderItem.create( subscription: subscription )
 		expect(subscription.is_next_interval_a_trial?).to eq false
 
-		subscription = SwellEcom::Subscription.new( subscription_plan: SwellEcom::SubscriptionPlan.new( trial_max_intervals: 2 ) )
+		subscription = SwellEcom.default_subscription_class.constantize.new( subscription_plan: SwellEcom::SubscriptionPlan.new( trial_max_intervals: 2 ) )
 		subscription.save
 		SwellEcom::OrderItem.create( subscription: subscription )
 		expect(subscription.is_next_interval_a_trial?).to eq true

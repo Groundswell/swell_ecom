@@ -14,6 +14,8 @@ module SwellEcom
 		mattr_accessor :discount_service_class
 		mattr_accessor :discount_service_config
 
+		mattr_accessor :default_subscription_class
+
 		mattr_accessor :shipping_service_class
 		mattr_accessor :shipping_service_config
 
@@ -41,6 +43,8 @@ module SwellEcom
 
 		self.discount_service_class = "SwellEcom::DiscountService"
 		self.discount_service_config = {}
+
+		self.default_subscription_class = "SwellEcom::ManagedSubscription"
 
 		self.shipping_service_class = "SwellEcom::ShippingService"
 		self.shipping_service_config = {}

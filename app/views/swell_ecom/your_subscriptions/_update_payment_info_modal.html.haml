@@ -6,7 +6,7 @@
 					&times;
 				%h4.modal-title
 					Enter New Payment Information
-			= form_for @subscription, url: swell_ecom.your_subscription_path( @subscription.code ), as: :payment_info, html: { class: 'payment_info_form' } do |f|
+			= form_for @subscription, as: :subscription, url: swell_ecom.your_subscription_path( @subscription.code ), as: :payment_info, html: { class: 'payment_info_form' } do |f|
 				.modal-body
 					= render 'swell_ecom/your_subscriptions/payment_info_form', f: f, args: {}
 				.modal-footer

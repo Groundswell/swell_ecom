@@ -8,7 +8,7 @@
 					&times;
 				%h4.modal-title
 					Enter New Billing Date
-			= form_for @subscription, url: swell_ecom.your_subscription_path( @subscription.code ) do |f|
+			= form_for @subscription, as: :subscription, url: swell_ecom.your_subscription_path( @subscription.code ) do |f|
 				.modal-body
 					.form-group
 						= f.hidden_field :next_charged_at, value: current_user.to_local_tz( @subscription.next_charged_at ), class: 'datepicker-inline form-control'

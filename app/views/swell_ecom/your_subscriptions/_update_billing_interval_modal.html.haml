@@ -8,7 +8,7 @@
 					&times;
 				%h4.modal-title
 					Enter Renewal Frequency
-			= form_for @subscription, url: swell_ecom.your_subscription_path( @subscription.code ) do |f|
+			= form_for @subscription, as: :subscription, url: swell_ecom.your_subscription_path( @subscription.code ) do |f|
 				.modal-body
 					.row{ style: 'margin-top: 0' }
 						.col-md-6
