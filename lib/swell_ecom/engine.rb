@@ -44,7 +44,7 @@ module SwellEcom
 		self.discount_service_class = "SwellEcom::DiscountService"
 		self.discount_service_config = {}
 
-		self.default_subscription_class = "SwellEcom::ManagedSubscription"
+		self.default_subscription_class = "SwellEcom::InternalSubscription"
 
 		self.shipping_service_class = "SwellEcom::ShippingService"
 		self.shipping_service_config = {}
