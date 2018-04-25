@@ -26,7 +26,7 @@ module SwellEcom
 		validates	:trial_interval_unit, presence: true, allow_blank: false
 		validates_inclusion_of :trial_interval_unit, :in => %w(month months day days week weeks year years), :allow_nil => false, message: '%{value} is not a valid unit of time.'
 
-		money_attributes :trial_price, :price, :shipping_price, :amount, :trial_amount
+		money_attributes :trial_price, :price, :shipping_price
 
 		mounted_at '/subscriptions'
 
